@@ -12,6 +12,7 @@ import InputBase from '@mui/material/InputBase';
 import Typography from '@mui/material/Typography';
 import {Result} from '../../types';
 import {decode} from 'html-entities';
+import { SEARCH_HISTORY_KEY, SEARCH_HISTORY_MAX_SIZE } from '../../constants';
 
 const style = {
   width: 600,
@@ -44,6 +45,23 @@ export default function SearchModal({query, handleQueryChange, searchResults, lo
     }
 
     return `${text.substring(12,maxCharLength)}${suffix}`;
+  }
+
+  function addResultToSearchHistory(res: Result) {
+    res.doc_text = "";
+    res.highlights = [];
+    const history = getSearchHistory();
+    const new_history = history.filter((curr: Result) => curr._id !=  res._id)
+    new_history.unshift(res);
+    if (new_history.length > SEARCH_HISTORY_MAX_SIZE) {
+      new_history.pop();
+    }
+    localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(new_history));
+  }
+
+  function getSearchHistory() {
+    const history = JSON.parse(localStorage.getItem(SEARCH_HISTORY_KEY) || "[]");
+    return history;
   }
 
   return (
@@ -145,7 +163,10 @@ export default function SearchModal({query, handleQueryChange, searchResults, lo
                 searchResults.map((searchResult, idx) =>{
                   return (
                       <ListItemButton
-                          onClick={() => window.open(searchResult._id)}
+                          onClick={() => {
+                            window.open(searchResult._id);
+                            addResultToSearchHistory(searchResult);
+                          }}
                           style={{
                             width: "100%",
                             borderRadius: "10px",
@@ -213,6 +234,50 @@ export default function SearchModal({query, handleQueryChange, searchResults, lo
                       </ListItemButton>
                   )
                 })
+              }
+              {
+                query == "" &&
+                getSearchHistory().map((historyResult: Result, idx: number) => {
+                  return (
+                      <ListItemButton
+                          onClick={() => {
+                            window.open(historyResult._id);
+                          }}
+                          style={{
+                            width: "100%",
+                            borderRadius: "10px",
+                            backgroundColor: selected === idx ? "#92D293" : ""
+                          }}
+                          onMouseOver={() => setSelected(idx)}
+                      >
+                        {
+                              <div
+                                  style={{
+                                    display: 'flex',
+                                    flexDirection: "column"
+                                }}
+                              >
+                                <ListItemText>
+                                  {decode(historyResult.title)}
+                                </ListItemText>
+
+                                {
+                                  historyResult._id &&
+                                  <span
+                                    style={{
+                                      color: "gray",
+                                      fontSize: 12
+                                    }}
+                                  >
+                                    {truncateLink(historyResult._id)}
+                                  </span>
+                                }
+                              </div>
+                        }
+                      </ListItemButton>
+                  )
+                })
+                
               }
             </List>
 
