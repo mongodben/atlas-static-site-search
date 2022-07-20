@@ -71,11 +71,82 @@ PRIVATE_KEY=<Project Private API Key> \
 
 ### 4. Configure App Services
 
-TODO
+You're going to configure an Atlas App Services App that
+Atlas Static Site Search uses to index site data and query Atlas Search.
+
+First, download and configure the Realm CLI following this guide: https://www.mongodb.com/docs/atlas/app-services/cli/#installation
+
+Add the full link to your website's `sitemap.xml` file to `app-services/values/SITEMAP_URL.json`. It should look like:
+
+```json
+{
+  "name": "SITEMAP_URL",
+  "value": "https://www.mongodb.com/docs/realm/sitemap.xml",
+  "from_secret": false
+}
+```
+
+Create a new App Services App that you'll deploy the config in the `app-serivces`
+directory of this repo to. Do this by follwoing this guide: https://www.mongodb.com/docs/atlas/app-services/manage-apps/create/create-with-ui/
+
+Copy the **App ID**, and add it to the the file `app-services/realm_config.json`
+in the field `"app_id"`. Update any other config in `realm_config.json` as necessary.
+For more information on updating `realm_config.json`, refer to the App configuration
+reference - https://www.mongodb.com/docs/atlas/app-services/manage-apps/configure/config/app/
+
+Once you're done, `realm_config.json` should look like:
+
+```json
+{
+  "app_id": "docs-search-cxodi",
+  "config_version": 20210101,
+  "name": "docs-search",
+  "location": "US-VA",
+  "provider_region": "aws-us-east-1",
+  "deployment_model": "LOCAL"
+}
+```
 
 ### 5. Deploy App Services
 
-TODO
+You're now ready to deploy the App to App Services.
+
+Open your terminal, and enter the `app-services` directory.
+
+Run the following command:
+
+```sh
+realm-cli push
+```
+
+Now you have successfully set up the Atlas Static Site Search backend.
+The only thing left is to set up the client to query it from your website.
+
+### 6. Add the React client to your website
+
+**NOTE: The search client currently only works with React websites.**
+
+In the project with the frontend of your website, add the npm package for the
+Atlas Static Site Search React component. Run in the terminal:
+
+```sh
+npm install TODO_COMPONENT_PACKAGE_NAME
+```
+
+Then add the `<TODO_REACT_COMPONENT_NAME />` component to your project,
+passing your Atlas App Services App ID as a prop to `id`. For example:
+
+```jsx
+<MyApp>
+  <header>
+    {/* other components in header */}
+    <TODO_REACT_COMPONENT_NAME id="<Your App ID here" />
+  </header>
+</MyApp>
+```
+
+Now you're done!! You can now use the search component to query the search index
+from the browser 🚀🚀🚀
 
 ## Architecture Overview
 
@@ -99,20 +170,27 @@ of the project as of now. So any changes you deploy will go right to 'prod' of t
 prototype.
 
 The configuration of the App Services App exists in the `app-services` directory
-of this repository. All changes should be made there, and then deployed using the
-`realm-cli`.
+of this repository. All changes should be made there, and then deploy using the
+[Realm Github integration](https://www.mongodb.com/docs/atlas/app-services/manage-apps/deploy/automated/deploy-automatically-with-github/).
 
-To edit the Atlas Search index, you must do so within the Atlas project.
-If you would like to work on the Search index, request access from Ben Perlmutter (@mongodben).
+Edit the Atlas Search index in the `atlas_search/site_index.json` file.
+On merge of your code, the index deploys to Atlas with the Github Action
+`github-action-search-index.yml`.
 
 Frontend search client code exists within the `frontend` directory.
+The repo is configured to use Netlify for deploy previews.
+Contact Ben Perlmutter (@mongodben) for changes to Netlify.
+
+The AWS Lambda function used to help create the search index page data
+is located in the `skunkworks-atlas-docs-search` directory. It uses the
+[Serverless Framework](https://www.serverless.com/framework/docs/providers/aws/guide/intro). Deployment currently must be done manually by Nick Larew (@nlarew).
 
 ## Post-Prototype Roadmap
 
 This'll be built out once the prototype phase advances.
 
-- [ ] Working prototype of Atlas Static Site Search. Works on one website, baked into the config.
-- [ ] Make project fully configurable using infrastructure as code and have clear deployment process.
-- [ ] User facing documentation on how to use and set up (ideally on a documentation site using
-      Atlas Static Site Search 🙂)
+- [ ] Improve the frontend UI. Visual tweaks and mobile optimize.
+- [ ] Make the frontend component work with non-React-based websites.
+- [ ] Streamline deployment.
+- [ ] Add more configuration options.
 - [ ] Create development/testing environments, and CI/CD to move between environments.
