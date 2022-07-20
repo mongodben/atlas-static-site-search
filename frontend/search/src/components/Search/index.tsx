@@ -145,6 +145,7 @@ export default function SearchModal({
 }: SearchModalProps) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(0);
+  const [searchHistory, setSearchHistory] = useState(getSearchHistory());
 
   return (
     <>
@@ -278,6 +279,7 @@ export default function SearchModal({
                     onClick={() => {
                       window.open(searchResult._id);
                       addResultToSearchHistory(searchResult);
+                      setSearchHistory(getSearchHistory());
                     }}
                     style={{
                       width: "100%",
@@ -359,7 +361,7 @@ export default function SearchModal({
               {
                 query == "" &&
                 <>
-                  {getSearchHistory().map((historyResult: Result, idx: number) => {
+                  {searchHistory.map((historyResult: Result, idx: number) => {
                     return (
                         <ListItemButton
                             onClick={() => {
@@ -368,43 +370,61 @@ export default function SearchModal({
                             style={{
                               width: "100%",
                               borderRadius: "10px",
-                              backgroundColor: selected === idx ? "#92D293" : ""
+                              backgroundColor: selected === idx ? "#92D293" : "white",
+                              marginTop: "5px",
+                              marginBottom: "5px",
                             }}
                             onMouseOver={() => setSelected(idx)}
                         >
                           {
-                                <div
-                                    style={{
-                                      display: 'flex',
-                                      flexDirection: "column"
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-around",
+                          gap: "5px",
+                        }}
+                      >
+                        {!historyResult.highlights ||
+                          (historyResult.highlights &&
+                            historyResult.highlights.length === 0 && (
+                              <>
+                                <p
+                                  style={{
+                                    color: selected === idx ? "white" : "black",
+                                    margin: 0,
+                                    fontSize: ".9em",
                                   }}
                                 >
-                                  <ListItemText>
-                                    {decode(historyResult.title)}
-                                  </ListItemText>
+                                  {truncateText(decode(historyResult.title))}
+                                </p>
 
-                                  {
-                                    historyResult._id &&
-                                    <span
-                                      style={{
-                                        color: "gray",
-                                        fontSize: 12
-                                      }}
-                                    >
-                                      {truncateText(historyResult._id, 12)}
-                                    </span>
-                                  }
-                                </div>
-                          }
+                                <span
+                                  style={{
+                                    color: selected === idx ? "white" : "gray",
+                                    fontSize: ".75em",
+                                  }}
+                                >
+                                  {truncateText(historyResult._id, 12)}
+                                </span>
+                              </>
+                            ))}
+                      </div>
+                    }
                         </ListItemButton>
                     )
                   })}
                   <Button
                     variant="outlined"
-                    onClick={() => setOpen(true)}
+                    onClick={() => {
+                      localStorage.removeItem(SEARCH_HISTORY_KEY);
+                      setSearchHistory(getSearchHistory());
+                    }}
                     style={{
                       textTransform: "none",
                       borderRadius: "10px",
+                      marginTop: "10px"
+                      
                     }}
                     color="success"
                     size="large"
