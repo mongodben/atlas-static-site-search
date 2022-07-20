@@ -4,9 +4,11 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
+import CloseIcon from '@mui/icons-material/Close';
 import List from "@mui/material/List";
 import Skeleton from "@mui/material/Skeleton";
 import ListItemButton from "@mui/material/ListItemButton";
+import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import InputBase from "@mui/material/InputBase";
 import Typography from "@mui/material/Typography";
@@ -123,11 +125,17 @@ function addResultToSearchHistory(res: Result) {
   res.doc_text = "";
   res.highlights = [];
   const history = getSearchHistory();
-  const new_history = history.filter((curr: Result) => curr._id !=  res._id)
+  const new_history = history.filter((curr: Result) => curr._id !=  res._id);
   new_history.unshift(res);
   if (new_history.length > SEARCH_HISTORY_MAX_SIZE) {
     new_history.pop();
   }
+  localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(new_history));
+}
+
+function removeResultFromSearchHistory(res: Result) {
+  const history = getSearchHistory();
+  const new_history = history.filter((curr: Result) => curr._id !=  res._id);
   localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(new_history));
 }
 
@@ -359,22 +367,52 @@ export default function SearchModal({
                 );
               })}
               {
-                query == "" &&
+                query == "" && searchHistory.length > 0 &&
                 <>
+                  <div
+                    style={{
+                      width: "100%",
+                      padding: "5px",
+                    }}
+                  >
+                    <p
+                      style={{
+                        color: "#92D293",
+                        padding: 0,
+                        margin: 0,
+                      }}
+                    >
+                      Search History
+                    </p>
+                  </div>
                   {searchHistory.map((historyResult: Result, idx: number) => {
                     return (
+                      <ListItem
+                        secondaryAction={
+                        <IconButton edge="end" onClick={() => {
+                          removeResultFromSearchHistory(historyResult);
+                          setSearchHistory(getSearchHistory());
+                        }}>
+                          <CloseIcon />
+                        </IconButton>}
+                        style={{
+                          width: "100%",
+                          borderRadius: "10px",
+                          backgroundColor: selected === idx ? "#92D293" : "white",
+                          marginTop: "5px",
+                          marginBottom: "5px",
+                        }}
+                        disablePadding
+                      >
                         <ListItemButton
-                            onClick={() => {
-                              window.open(historyResult._id);
-                            }}
-                            style={{
-                              width: "100%",
-                              borderRadius: "10px",
-                              backgroundColor: selected === idx ? "#92D293" : "white",
-                              marginTop: "5px",
-                              marginBottom: "5px",
-                            }}
-                            onMouseOver={() => setSelected(idx)}
+                          
+                          onClick={() => {
+                            window.open(historyResult._id);
+                            addResultToSearchHistory(historyResult);
+                            setSearchHistory(getSearchHistory());
+                          }}
+                          
+                          onMouseOver={() => setSelected(idx)}
                         >
                           {
                       <div
@@ -412,6 +450,7 @@ export default function SearchModal({
                       </div>
                     }
                         </ListItemButton>
+                        </ListItem>
                     )
                   })}
                   <Button
