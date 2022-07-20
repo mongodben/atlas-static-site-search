@@ -338,7 +338,7 @@ export default function SearchModal({
                 );
               })}
               {
-                query == "" &&
+                !loading && !noResults &&
                 <SearchHistory/>
               }
           </List>
