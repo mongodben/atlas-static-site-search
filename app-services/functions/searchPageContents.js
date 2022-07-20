@@ -1,5 +1,4 @@
 async function search_prod({ query = "", limit = 10, skip = 0 }) {
-  console.log("runningAsSystem", context.runningAsSystem())
   const pageContents = context.services
     .get("mongodb-atlas")
     .db("site-search")
