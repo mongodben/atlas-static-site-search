@@ -2,7 +2,7 @@ async function getDocsFromHtml(html){
   const axios = require("axios");
   const html2textUrl = context.values.get("html2textUrl");
   const response = await axios.post(html2textUrl, { html });
-  return response.data.text
+  return response.data
 }
 
 async function writePageContents({ fullDocument }) {
@@ -21,14 +21,7 @@ async function writePageContents({ fullDocument }) {
   const pageUrl = fullDocument.loc;
   
   const { data: html } = await axios.get(pageUrl);
-  const docText = await getDocsFromHtml(html);
-  
-  const titleRegex = /<title.*>(.*)<\/title>/;
-  const pageTitleRes = titleRegex.exec(html);
-  let title;
-  if (pageTitleRes !== null) {
-    title = pageTitleRes[1];
-  }
+  const { text: doc_text, title, ...headings } = await getDocsFromHtml(html);
 
   // update search index collection
   const pageContents = context.services
@@ -39,7 +32,8 @@ async function writePageContents({ fullDocument }) {
   const updateDoc = {
     $set: {
       title,
-      doc_text: docText,
+      doc_text,
+      headings,
     },
     $currentDate: { last_updated: true },
   };

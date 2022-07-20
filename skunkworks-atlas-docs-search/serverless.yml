@@ -14,3 +14,6 @@ functions:
       - httpApi:
           path: /html2text
           method: post
+
+plugins:
+  - serverless-offline

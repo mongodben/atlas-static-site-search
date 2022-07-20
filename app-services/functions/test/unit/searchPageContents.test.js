@@ -1,5 +1,5 @@
 const Realm = require("realm");
-const { searchAgg } = require("../../searchPageContents");
+const { search } = require("../../searchPageContents");
 
 let collection;
 const appId = "docs-search-cxodi";
@@ -19,9 +19,9 @@ afterAll(async () => {
 });
 
 test("searchAgg returns search results", async () => {
-  const res = await searchAgg(collection, "flutter write data", 10, 0);
-  expect(res.length).toBe(10);
-  const someDoc = res[0];
+  const { results } = await search({ query: "flutter write data", limit: 10, __test_collection: collection });
+  expect(results.length).toBe(10);
+  const someDoc = results[0];
   expect(
     Object.hasOwn(someDoc, "title") &&
       Object.hasOwn(someDoc, "doc_text") &&
@@ -30,14 +30,14 @@ test("searchAgg returns search results", async () => {
 });
 
 test("searchAgg returns expected number of results", async () => {
-  const res5 = await searchAgg(collection, "flutter write data", 5, 0);
-  const res10 = await searchAgg(collection, "flutter write data", 10, 0);
+  const { results: res5 } = await search({ query: "flutter write data", limit: 5, __test_collection: collection });
   expect(res5.length).toBe(5);
+  const { results: res10 } = await search({ query: "flutter write data", limit: 10, __test_collection: collection });
   expect(res10.length).toBe(10);
 });
 
 test("searchAgg paginates results", async () => {
-  const firstTwoRes = await searchAgg(collection, "flutter write data", 2, 0);
-  const secondRes = await searchAgg(collection, "flutter write data", 1, 1);
+  const { results: firstTwoRes } = await search({ query: "flutter write data", limit: 2, skip: 0, __test_collection: collection });
+  const { results: secondRes } = await search({ query: "flutter write data", limit: 1, skip: 1, __test_collection: collection });
   expect(firstTwoRes[1]._id === secondRes[0]._id).toBe(true);
 });

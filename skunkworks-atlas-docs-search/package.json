@@ -4,5 +4,11 @@
     "html2text": "^6.0.0",
     "jquery": "^3.6.0",
     "jsdom": "^20.0.0"
+  },
+  "devDependencies": {
+    "serverless-offline": "^9.0.0"
+  },
+  "scripts": {
+    "start": "serverless offline"
   }
 }

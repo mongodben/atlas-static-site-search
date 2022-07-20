@@ -1,4 +1,6 @@
-// the searchPageContents function returns a Results[]
+// the searchPageContents function returns a SearchResult
+export type SearchResult = { results: Result[]; completions: string[] };
+
 export interface Result {
   _id: string,
   title: string;

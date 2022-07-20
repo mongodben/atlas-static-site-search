@@ -32,6 +32,6 @@
     "time": "18/Jul/2022:18:37:23 +0000",
     "timeEpoch": 1658169443382
   },
-  "body": "{\n\t\"html\": \"<html><body><h1>Test pls ignore</h1><p>This is paragraph content. There are multiple sentences.</p></body></html>\"\n}",
+  "body": "{\n\t\"html\": \"<html><head><title>Howdy there partner</title></head><body><h1>Test pls ignore</h1><p>This is paragraph content. There are multiple sentences.</p><h2>Second-level heading</h2><p>This is more paragraph content.</p></body></html>\"\n}",
   "isBase64Encoded": false
 }

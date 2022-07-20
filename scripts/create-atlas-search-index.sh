@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#TODO replace the group name and cluster name so this actually works
 curl --user "${PUBLIC_KEY}:${PRIVATE_KEY}" --digest \
      --header "Content-Type: application/json" \
      --include \

@@ -1,4 +1,5 @@
 import * as Realm from "realm-web";
+import { SearchResult } from "../types";
 
 export class API {
   private app: Realm.App;
@@ -14,8 +15,17 @@ export class API {
     return api;
   }
 
-  public async searchDocs(query: string) {
-    return await this.user?.functions.searchPageContents(query);
+  public async searchDocs(query: string): Promise<SearchResult> {
+    if (query === "") {
+      console.warn("Tried to search with an empty string");
+      return {
+        results: [],
+        completions: [],
+      };
+    }
+    return (await this.user?.functions.searchPageContents({
+      query,
+    })) as SearchResult;
   }
 
   private async logInUser() {

@@ -2,20 +2,21 @@ import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import Search from "../components/Search";
 import { API } from "../api/API";
+import { SearchResult } from "../types";
 
 interface SearchProps {
   id: string;
 }
 
 export default function SearchPage({ id }: SearchProps) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [api, setApi] = useState<API>();
-  const [noResults, setNoResults] = useState(false);
+  const [noResults, setNoResults] = useState<boolean>(false);
   const [query, setQuery] = useState("");
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<SearchResult["results"]>([]);
 
   useEffect(() => {
     API.init(id).then((api) => setApi(api));
@@ -24,10 +25,8 @@ export default function SearchPage({ id }: SearchProps) {
     if (!query || !query.trim() || !api) {
       setResults([]);
     } else {
-      const results = await api.searchDocs(query);
-      let modifiedResults = results;
-
-      setResults(modifiedResults ?? []);
+      const { results } = await api.searchDocs(query);
+      setResults(results ?? []);
     }
   }
 
