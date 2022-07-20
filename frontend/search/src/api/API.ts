@@ -1,40 +1,28 @@
 import * as Realm from "realm-web";
-import {APP_ID} from "../constants";
 
 export class API {
-  private static instance: API;
+  private app: Realm.App;
+  private user: Realm.User | null = null;
 
-  private app;
-  private user: any = null;
-
-  private constructor() {
-    this.app = new Realm.App({ id: APP_ID });
+  private constructor(id: string) {
+    this.app = new Realm.App({ id });
   }
 
-  public static getInstance(): API {
-    if (!API.instance) {
-      API.instance = new API();
-    }
-
-    return API.instance;
+  public static async init(app_id: string): Promise<API> {
+    const api = new API(app_id);
+    await api.logInUser();
+    return api;
   }
 
   public async searchDocs(query: string) {
-    const user = await this.getUser();
-    return await user.functions.searchPageContents(query);
+    return await this.user?.functions.searchPageContents(query);
   }
 
-  private async getUser() {
-    if (this.user) {
-      return this.user;
-    }
-
+  private async logInUser() {
     // Create an anonymous credential
     const credentials = Realm.Credentials.anonymous();
 
     // Authenticate the user
     this.user = await this.app.logIn(credentials);
-    return this.user;
   }
-
 }
