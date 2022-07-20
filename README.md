@@ -9,7 +9,7 @@ Why use Atlas Static Site Search:
 - Free forever option
 - Fully configurable
 - Grows to web scale, powered by MongoDB Atlas
-- No application necessary (unlike [Algolia Docsearch](https://docsearch.algolia.com/))
+- No applying for use necessary (unlike [Algolia Docsearch](https://docsearch.algolia.com/))
 
 ## Add Atlas Static Site Search to your website
 
