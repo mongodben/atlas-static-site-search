@@ -137,6 +137,8 @@ Then add the `<Search />` component to your project,
 passing your Atlas App Services App ID as a prop to `id`. For example:
 
 ```jsx
+import Search from 'atlas-static-search-box';
+
 <MyApp>
   <header>
     {/* other components in header */}
