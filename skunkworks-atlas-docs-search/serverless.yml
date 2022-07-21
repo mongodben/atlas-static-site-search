@@ -8,6 +8,12 @@ provider:
   runtime: nodejs14.x
 
 functions:
+  fetchSitemap:
+    handler: handler.fetchSitemap
+    events:
+      - httpApi:
+          path: /fetchSitemap
+          method: post
   html2text:
     handler: handler.html2text
     events:

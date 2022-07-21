@@ -1,5 +1,32 @@
 "use strict";
 
+module.exports.fetchSitemap = async (event) => {
+  const { sitemap_url } = JSON.parse(event.body);
+
+  const Sitemapper = require("sitemapper");
+  const sitemap = new Sitemapper({
+    url: sitemap_url,
+    timeout: 15000,
+  });
+
+  try {
+    const { url, sites, errors } = await sitemap.fetch()
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        url,
+        sites,
+        errors,
+      }),
+    };
+  } catch (err) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify(err.message ?? "something went wrong")
+    }
+  }
+}
+
 module.exports.html2text = async (event) => {
   const { html } = JSON.parse(event.body);
 

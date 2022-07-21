@@ -1,0 +1,5 @@
+{
+    "name": "fetchSitemapUrl",
+    "value": "https://ovxnui9i5h.execute-api.us-east-1.amazonaws.com/fetchSitemap",
+    "from_secret": false
+}

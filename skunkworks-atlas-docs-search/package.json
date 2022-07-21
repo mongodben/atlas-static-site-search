@@ -3,7 +3,8 @@
     "html-to-text": "^8.2.0",
     "html2text": "^6.0.0",
     "jquery": "^3.6.0",
-    "jsdom": "^20.0.0"
+    "jsdom": "^20.0.0",
+    "sitemapper": "^3.2.2"
   },
   "devDependencies": {
     "serverless-offline": "^9.0.0"

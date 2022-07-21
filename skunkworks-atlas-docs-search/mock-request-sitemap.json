@@ -1,0 +1,37 @@
+{
+  "version": "2.0",
+  "routeKey": "POST /parse",
+  "rawPath": "/parse",
+  "rawQueryString": "",
+  "headers": {
+    "accept": "*/*",
+    "content-length": "128",
+    "content-type": "application/json",
+    "host": "ovxnui9i5h.execute-api.us-east-1.amazonaws.com",
+    "user-agent": "insomnia/2022.4.1",
+    "x-amzn-trace-id": "Root=1-62d5a863-5b7d1ac92765faa466595672",
+    "x-forwarded-for": "66.232.252.246",
+    "x-forwarded-port": "443",
+    "x-forwarded-proto": "https"
+  },
+  "requestContext": {
+    "accountId": "948505087085",
+    "apiId": "ovxnui9i5h",
+    "domainName": "ovxnui9i5h.execute-api.us-east-1.amazonaws.com",
+    "domainPrefix": "ovxnui9i5h",
+    "http": {
+      "method": "POST",
+      "path": "/parse",
+      "protocol": "HTTP/1.1",
+      "sourceIp": "66.232.252.246",
+      "userAgent": "insomnia/2022.4.1"
+    },
+    "requestId": "Vec_jhvUoAMEMaQ=",
+    "routeKey": "POST /parse",
+    "stage": "$default",
+    "time": "18/Jul/2022:18:37:23 +0000",
+    "timeEpoch": 1658169443382
+  },
+  "body": "{ \"sitemap_url\": \"https://skunkblog.nlarew.com/sitemap/sitemap-index.xml\" }",
+  "isBase64Encoded": false
+}
