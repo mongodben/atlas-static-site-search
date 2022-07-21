@@ -127,20 +127,20 @@ The only thing left is to set up the client to query it from your website.
 **NOTE: The search client currently only works with React websites.**
 
 In the project with the frontend of your website, add the npm package for the
-Atlas Static Site Search React component. Run in the terminal:
+[Atlas Static Site Search React component](https://github.com/joonyoungleeduke/atlas-static-site-search-box). Run in the terminal:
 
 ```sh
-npm install TODO_COMPONENT_PACKAGE_NAME
+npm install atlas-static-site-search-box
 ```
 
-Then add the `<TODO_REACT_COMPONENT_NAME />` component to your project,
+Then add the `<Search />` component to your project,
 passing your Atlas App Services App ID as a prop to `id`. For example:
 
 ```jsx
 <MyApp>
   <header>
     {/* other components in header */}
-    <TODO_REACT_COMPONENT_NAME id="<Your App ID here" />
+    <Search id="<Your App ID here" />
   </header>
 </MyApp>
 ```
