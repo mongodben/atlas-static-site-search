@@ -3,17 +3,11 @@
         "_id": {
             "bsonType": "objectId"
         },
-        "changefreq": {
-            "bsonType": "string"
-        },
         "last_updated": {
             "bsonType": "date"
         },
         "loc": {
             "bsonType": "string"
-        },
-        "priority": {
-            "bsonType": "double"
         }
     },
     "title": "page"
