@@ -1,0 +1,74 @@
+{
+	"name": "atlas-static-site-search-cli",
+	"version": "0.0.20",
+	"license": "MIT",
+	"bin": {
+		"atlas-static-site-search-cli": "./lib/cli.js"
+	},
+	"engines": {
+		"node": ">=10"
+	},
+	"scripts": {
+		"test": "xo && ava",
+		"rollup": "rollup -c",
+		"ship": "npm run rollup && npm publish"
+	},
+	"files": [
+		"lib/cli.js"
+	],
+	"dependencies": {
+		"import-jsx": "^4.0.1",
+		"ink": "^3.2.0",
+		"meow": "^9.0.0",
+		"react": "^17.0.2"
+	},
+	"ava": {
+		"babel": true,
+		"require": [
+			"@babel/register"
+		]
+	},
+	"babel": {
+		"presets": [
+			"@babel/preset-env",
+			"@babel/preset-react"
+		]
+	},
+	"xo": {
+		"extends": "xo-react",
+		"rules": {
+			"react/prop-types": "off"
+		}
+	},
+	"devDependencies": {
+		"@ava/babel": "^2.0.0",
+		"@babel/core": "^7.18.9",
+		"@babel/preset-env": "^7.18.9",
+		"@babel/preset-react": "^7.18.6",
+		"@babel/register": "^7.18.9",
+		"ava": "^4.3.1",
+		"chalk": "^4.1.2",
+		"eslint-config-xo-react": "^0.27.0",
+		"eslint-plugin-react": "^7.30.1",
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"ink-testing-library": "^2.1.0",
+		"rollup": "^2.77.0",
+		"rollup-plugin-babel": "^4.4.0",
+		"rollup-plugin-jsx": "^1.0.3",
+		"rollup-plugin-multi-input": "^1.3.1",
+		"rollup-plugin-preserve-shebang": "^1.0.1",
+		"xo": "^0.39.1"
+	},
+	"description": "Automatically set up a backend application and search index for Atlas Static Site Search.",
+	"main": "lib/cli.js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mongodben/atlas-static-site-search.git"
+	},
+	"keywords": [],
+	"author": "Nick Larew",
+	"bugs": {
+		"url": "https://github.com/mongodben/atlas-static-site-search/issues"
+	},
+	"homepage": "https://github.com/mongodben/atlas-static-site-search/tree/main/skunkworks-atlas-docs-search"
+}
