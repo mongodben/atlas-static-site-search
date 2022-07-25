@@ -13,6 +13,25 @@ Why use Atlas Static Site Search:
 
 ## Add Atlas Static Site Search to your website
 
+This section outlines how to set up the Atlas Static Site Search backend and add the search bar to to your website to query the search index.
+
+### Set up Backend
+
+Set up Atlas Static Site Search backend for your website with one command.
+
+```sh
+npx atlas-static-site-search-cli \        
+  --group-id=<Your Atlas Project ID> \
+  --cluster-name=<Your Atlas Cluster Name> \
+  --public-key=<Your Atlas Public Key> \
+  --private-key=<Your Atlas Private Key> \
+  --sitemap-url=<Your Sitemap URL>
+```
+
+<details>
+
+<summary>Manual backend set up (hard mode)</summary>
+
 This section outlines how you can set up an instance of Atlas Static Site Search
 and add it to your website.
 
@@ -122,7 +141,9 @@ realm-cli push
 Now you have successfully set up the Atlas Static Site Search backend.
 The only thing left is to set up the client to query it from your website.
 
-### 6. Add the React client to your website
+</details>
+
+### Add the React Client to Your Website
 
 **NOTE: The search client currently only works with React websites.**
 
